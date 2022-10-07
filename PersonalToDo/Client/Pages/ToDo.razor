@@ -1,0 +1,48 @@
+﻿@page "/ToDo"
+
+@inject HttpClient Http
+
+<EditForm Model="newToDoItem" OnValidSubmit="CreateToDo" class="border-1 border-bottom border-dark py-3">
+    <div class="d-flex ps-4">
+        <InputText class="col-10 me-2" type="text" placeholder="enter todo" @bind-Value="newToDoItem.Title" />
+        <button class="btn btn-primary btn-sm">Add</button>
+    </div>
+</EditForm>
+
+<ul class="text-start mt-3">
+    @foreach (var toDoItem in toDoItems)
+    {
+        <li class="d-flex">
+            <p class="col-10 fs-5 fw-normal">@toDoItem.Title</p>
+            <button class="btn btn-close pt-2"></button>
+        </li>
+    }
+</ul>
+
+        @code {
+        // CREATE
+        ToDoItem newToDoItem = new();
+        async Task CreateToDo()
+        {
+
+            var httpResponse = await Http.PostAsJsonAsync<ToDoItem>($"api/ToDo/CreateToDo", newToDoItem);
+            Console.WriteLine(httpResponse);
+
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Successful! New todo has been sent to CosmosDB");
+            }
+            else
+            {
+                Console.WriteLine("Fail! There is an error");
+            }
+        }
+
+        // GET
+        List<ToDoItem> toDoItems = new(); 
+        protected override async Task OnInitializedAsync()
+        {
+            var itemList = await Http.GetFromJsonAsync<List<ToDoItem>>($"api/ToDo/GetToDos");
+            toDoItems = itemList;
+        }
+}
