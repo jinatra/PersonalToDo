@@ -30,5 +30,18 @@ namespace PersonalToDo.Server.Controllers
         {
             return await toDoService.GetToDos();
         }
+
+        // ToDoItem 삭제
+        [HttpDelete("{id}")]
+        public async void RemoveToDo(string id)
+        {
+            await toDoService.RemoveToDo(id);
+        }
+
+        [HttpPut("{id}")]
+        public async void EditToDo(ToDoItem toDoItem)
+        {
+            await toDoService.EditToDo(toDoItem);
+        }
     }
 }

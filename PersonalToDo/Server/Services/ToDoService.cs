@@ -23,10 +23,22 @@ namespace PersonalToDo.Server.Services
             await container.AddItem<ToDoItem>(toDoitem);
         }
 
-        // GET
+        // READ
         public async Task<List<ToDoItem>> GetToDos()
         {
             return await container.GetItemLinqQueryable<ToDoItem>().GetListFromFeedIteratorAsync();
+        }
+
+        // DELETE
+        public async Task RemoveToDo(string Id)
+        {
+            await container.RemoveItem<ToDoItem>(Id);
+        }
+
+        // UPDATE
+        public async Task EditToDo(ToDoItem toDoItem)
+        {
+            await container.EditItem<ToDoItem>(toDoItem);
         }
     }
 }
