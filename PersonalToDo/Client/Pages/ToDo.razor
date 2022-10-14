@@ -19,17 +19,17 @@
     }
 </ul>
 
-<EditForm Model="editingToDoItem" OnValidSubmit="EditToDo" class="border-1 border-top border-dark py-3">
-    @foreach (var todoItem in toDoItems)
+<EditForm Model="newToDoItem"  class="border-1 border-top border-dark py-3">
+    @foreach (var toDoItem in toDoItems)
     {
         <div class="form-group row">
             <label for="title" class="col-sm-2 col-form-label">
                 Title
             </label>
             <div class="col-sm-10">
-                <InputText id="title" class="form-control" placeholder="@todoItem.Title" @bind-Value="editingToDoItem.Title" />
+                <InputText id="title" class="form-control" placeholder="@toDoItem.Title" @bind-Value="@toDoItem.Title" />
             </div>
-            <button class="btn btn-primary" type="submit")>Submit</button>
+            <button class="btn btn-primary" type="submit" value="refresh" @onclick=@((e) => EditToDo(toDoItem))>Submit</button>
         </div>
     }
 </EditForm>
@@ -60,9 +60,8 @@
     }
 
     //UPDATE
-    ToDoItem editingToDoItem = new();
-    async Task EditToDo()
+    async Task EditToDo(ToDoItem toDoItem)
     {
-        var httpResponse = await Http.PutAsJsonAsync($"api/ToDo/EditToDo", editingToDoItem);
+        var httpResponse = await Http.PutAsJsonAsync($"api/ToDo/EditToDo", toDoItem);
     }
 }

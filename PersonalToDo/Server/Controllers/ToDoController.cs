@@ -38,8 +38,8 @@ namespace PersonalToDo.Server.Controllers
             await toDoService.RemoveToDo(id);
         }
 
-        [HttpPut("{id}")]
-        public async void EditToDo(ToDoItem toDoItem)
+        [HttpPut]
+        public async Task EditToDo(ToDoItem toDoItem)
         {
             await toDoService.EditToDo(toDoItem);
         }
